@@ -1,0 +1,9 @@
+SIZE = "800x400"
+TITLE = "ping-pong by krad"
+
+HEADER_HEIGHT = 50
+HEADER_WIDTH = 700
+
+FIELD_HEIGHT = 300
+FIELD_WIDTH = 700
+
