@@ -16,7 +16,7 @@ class Ball():
 			if self.hit_on_racket(self.left):
 				self.move_to_route(self.left, self.move_right)
 				return
-			self.score.change_score(self.left.user)
+			self.score.change_score(self.right.user)
 			self.move_right()
 			return
 		self.move_controll(-10, self.move_left, x)
@@ -26,7 +26,7 @@ class Ball():
 			if self.hit_on_racket(self.right):
 				self.move_to_route(self.right, self.move_left)
 				return
-			self.score.change_score(self.right.user)
+			self.score.change_score(self.left.user)
 			self.move_left()
 			return
 		self.move_controll(10, self.move_right, x)
