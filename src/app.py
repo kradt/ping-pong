@@ -14,7 +14,6 @@ class App(tk.Tk):
 		self.game.pack()
 		self.binds_all_events()
 		
-	
 	def binds_all_events(self):
 		self.bind("<Down>", lambda _: self.game.right_stick.move_down())
 		self.bind("<Up>", lambda _: self.game.right_stick.move_up())
