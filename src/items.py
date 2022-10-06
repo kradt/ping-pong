@@ -11,6 +11,7 @@ class MixinCoords:
 
 
 class Ball(MixinCoords):
+
 	def __init__(self, canvas, ball):
 		super().__init__(ball)
 		self.canvas = canvas
@@ -77,6 +78,9 @@ class Ball(MixinCoords):
 		if coords[1]-30 < y < coords[3]+30:
 			return True
 		return False
+
+class GameNotStartedError(Exception):
+	pass
 
 
 class Stick(MixinCoords):

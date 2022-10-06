@@ -12,13 +12,10 @@ class App(tk.Tk):
 		self.score.pack(side=tk.TOP)
 		self.game = GameField(self)
 		self.game.pack()
-		self.binds_all_events()
-		
-	def binds_all_events(self):
-		self.bind("<Down>", lambda _: self.game.right_stick.move_down())
-		self.bind("<Up>", lambda _: self.game.right_stick.move_up())
-		self.bind("<KeyPress-s>", lambda _: self.game.left_stick.move_down())
-		self.bind("<KeyPress-w>", lambda _: self.game.left_stick.move_up())
+		self.bind_events()
+
+
+	def bind_events(self):
 		self.bind("<Return>", lambda _: self.game.start_game())
 
 
