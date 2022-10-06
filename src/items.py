@@ -1,10 +1,18 @@
 import config 
 import random
 
+class MixinCoords:
+	def __init__(self, item):
+		self.item = item
+
+	@property
+	def coords(self):
+		return self.canvas.coords(self.item)
 
 
-class Ball():
+class Ball(MixinCoords):
 	def __init__(self, canvas, ball):
+		super().__init__(ball)
 		self.canvas = canvas
 		self.ball = ball
 		self.left = canvas.left_stick
@@ -30,7 +38,6 @@ class Ball():
 			self.move_left()
 			return
 		self.move_controll(10, self.move_right, x)
-
 
 	def move_controll(self, move, func, x=0):
 		'''
@@ -71,13 +78,10 @@ class Ball():
 			return True
 		return False
 
-	@property
-	def coords(self):
-		return self.canvas.coords(self.ball)
 
-
-class Stick():
+class Stick(MixinCoords):
 	def __init__(self, canvas, stick, user):
+		super().__init__(stick)
 		self.canvas = canvas
 		self.stick = stick
 		self.user = user
@@ -90,10 +94,4 @@ class Stick():
 		self.canvas.move(self.stick, 0, 10)
 		self.canvas.after(20)
 
-	@property
-	def coords(self):
-		return self.canvas.coords(self.stick)
 	
-
-
-
