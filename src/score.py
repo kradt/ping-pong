@@ -7,7 +7,7 @@ class User():
 		self.score = 0
 
 	def point_to_user(self):
-		self.score +=1
+		self.score += 1
 
 
 class Score(tk.Frame):
@@ -15,7 +15,6 @@ class Score(tk.Frame):
 
 	def __init__(self, root):
 		super().__init__(root, width=config.HEADER_WIDTH, height=config.HEADER_HEIGHT, bg="black")
-		
 		self.label = tk.Label(self, text=self.__result.format(0, 0),
 									fg="white", 
 									bg="black", 

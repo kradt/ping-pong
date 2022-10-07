@@ -11,7 +11,6 @@ class MixinCoords:
 
 
 class Ball(MixinCoords):
-
 	def __init__(self, canvas, ball):
 		super().__init__(ball)
 		self.canvas = canvas
@@ -28,7 +27,7 @@ class Ball(MixinCoords):
 			self.score.change_score(self.right.user)
 			self.move_right()
 			return
-		self.move_controll(-10, self.move_left, x)
+		self.move_controll(self.move_left, x, -10)
 
 	def move_right(self, x=0):
 		if int(self.right.coords[2]) == int(self.coords[2]):
@@ -38,23 +37,24 @@ class Ball(MixinCoords):
 			self.score.change_score(self.left.user)
 			self.move_left()
 			return
-		self.move_controll(10, self.move_right, x)
+		self.move_controll(self.move_right, x, 10)
 
-	def move_controll(self, move, func, x=0):
+	def move_controll(self, func, x=0, y=0):
 		'''
 		Контролируем направления движущегося мяча
+		Принимает функцию движения и координаты
 		'''
 		coord = self.coords[1]
-		self.canvas.move(self.ball, move, x)
-		r = random.randint(1, 5)
-		if coord <= 10:
-			self.canvas.after(40, lambda: func(r))
-		elif coord >= config.FIELD_HEIGHT-45:
-			self.canvas.after(40, lambda: func(-r))
-		else:
-			self.canvas.after(40, lambda: func(x))
+		deviation = random.randint(1, 5)
 
-	def move_to_route(self, stick, func):
+		self.canvas.move(self.ball, y, x)
+		if coord >= config.FIELD_HEIGHT-45:
+			deviation = -deviation
+		elif coord >= 10:
+			deviation = x
+		self.canvas.after(40, lambda: func(deviation))
+
+	def move_to_route(self, stick, func, deviation=0):
 		'''
 		Сверяем координати ракетки и координаты места на ракетке об которое ударился мяч
 		Относительно этого меняем маршрут движения по x 
@@ -62,25 +62,22 @@ class Ball(MixinCoords):
 		coords_s = stick.coords
 		coords_b = self.coords
 		r = random.randint(1, 5)
+
 		if coords_b[1] <= coords_s[1] and coords_b[3] <= coords_s[3]:
-			func(-r)
+			deviation = -r
 		elif coords_b[1] >= coords_s[1] and coords_b[3] >= coords_s[3]:
-			func(r)
-		else:
-			func(0)
+			deviation = r
+		func(deviation)
 
 	def hit_on_racket(self, stick):
 		'''
 		Проверяем стукнулся ли мяч об ракетку
 		'''
-		y = int(self.coords[1])
+		y = self.coords[1]
 		coords = stick.coords
 		if coords[1]-30 < y < coords[3]+30:
 			return True
 		return False
-
-class GameNotStartedError(Exception):
-	pass
 
 
 class Stick(MixinCoords):

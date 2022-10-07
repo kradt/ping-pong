@@ -10,7 +10,6 @@ class GameField(tk.Canvas):
 
 	def __init__(self, root):
 		super().__init__(root, bg="black", width=config.FIELD_WIDTH, height=config.FIELD_HEIGHT)
-
 		self.root = root
 		self.start = tk.Label(text='Чтобы начать нажми ENTER', bg="black", fg="white")
 		self.start.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -18,7 +17,7 @@ class GameField(tk.Canvas):
 	@lru_cache()
 	def start_game(self):
 		'''
-		Инициализируем обьект
+		Инициализируем обьекты ракеток и мяча
 		Выполняеться после нажатия на кнопку ENTER
 		'''
 		self.start.destroy()

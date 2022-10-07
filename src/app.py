@@ -14,7 +14,6 @@ class App(tk.Tk):
 		self.game.pack()
 		self.bind_events()
 
-
 	def bind_events(self):
 		self.bind("<Return>", lambda _: self.game.start_game())
 
