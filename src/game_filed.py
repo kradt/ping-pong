@@ -1,7 +1,9 @@
-import config
 import tkinter as tk
-from .items import Stick, Ball
 from functools import lru_cache
+
+import config
+from .items import Stick, Ball
+
 
 
 class GameField(tk.Canvas):
@@ -15,11 +17,12 @@ class GameField(tk.Canvas):
 		self.start.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 	@lru_cache()
-	def start_game(self):
+	def start_game(self, speed):
 		'''
 		Инициализируем обьекты ракеток и мяча
 		Выполняеться после нажатия на кнопку ENTER
 		'''
+		self.speed = speed
 		self.start.destroy()
 		self.left_stick = self.__create_stick(self.__left_x_coords)
 		self.left_stick = Stick(self, self.left_stick, self.root.score.user1)
@@ -28,7 +31,7 @@ class GameField(tk.Canvas):
 		self.right_stick = Stick(self, self.right_stick, self.root.score.user2)
 
 		self.ball = self.__create_ball()
-		self.ball = Ball(self, self.ball)
+		self.ball = Ball(self, self.ball, self.speed)
 		self.bind_events()
 		self.ball.move_left()
 	

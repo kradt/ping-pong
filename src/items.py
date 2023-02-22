@@ -1,5 +1,6 @@
-import config 
 import random
+import config 
+
 
 class MixinCoords:
 	def __init__(self, item):
@@ -11,9 +12,10 @@ class MixinCoords:
 
 
 class Ball(MixinCoords):
-	def __init__(self, canvas, ball):
+	def __init__(self, canvas, ball, speed):
 		super().__init__(ball)
 		self.canvas = canvas
+		self.speed = speed
 		self.ball = ball
 		self.left = canvas.left_stick
 		self.right = canvas.right_stick
@@ -41,7 +43,7 @@ class Ball(MixinCoords):
 
 	def move_controll(self, func, x=0, y=0):
 		'''
-		Контролируем направления движущегося мяча
+		Проеряем об какую сторону поля ударился мяч, относительно этого передаем отклонения по x
 		Принимает функцию движения и координаты
 		'''
 		coord = self.coords[1]
@@ -52,7 +54,7 @@ class Ball(MixinCoords):
 			deviation = -deviation
 		elif coord >= 10:
 			deviation = x
-		self.canvas.after(40, lambda: func(deviation))
+		self.canvas.after(self.speed, lambda: func(deviation))
 
 	def move_to_route(self, stick, func, deviation=0):
 		'''
