@@ -1,5 +1,6 @@
 import tkinter as tk
 import random
+import math
 import config 
 
 
@@ -61,9 +62,9 @@ class Ball(MixinCoords):
 	# Methood start move to another side for y
 	def move_controll(self, func, x=0, y=0):
 		coord = self.coords[1]
-		deviation = random.randint(1, 5)
-
 		self.canvas.move(self.ball, y, x)
+
+		deviation = 5
 		if coord >= config.FIELD_HEIGHT-45:
 			deviation = -deviation
 		elif coord >= 10:
@@ -74,15 +75,14 @@ class Ball(MixinCoords):
 	def move_to_route(self, stick, func, deviation=0):
 		coords_s = stick.coords
 		coords_b = self.coords
-		r = random.randint(1, 5)
 
 		if coords_b[1] <= coords_s[1] and coords_b[3] <= coords_s[3]:
-			deviation = -r
+			deviation = -5
 		elif coords_b[1] >= coords_s[1] and coords_b[3] >= coords_s[3]:
-			deviation = r
+			deviation = 5
 		func(deviation)
 
-	# Method check if ball was hitted of stick
+	# Method check if ball was hitted on stick
 	def hit_on_racket(self, stick):
 		y = self.coords[1]
 		coords = stick.coords
@@ -96,7 +96,6 @@ class Ball(MixinCoords):
 
 	def __del__(self):
 		self.canvas.delete(self.ball)
-
 
 
 class Stick(MixinCoords):
