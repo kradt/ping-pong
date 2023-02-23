@@ -1,7 +1,9 @@
+import tkinter as tk
 import random
 import config 
 
 
+# Mixin for get cooord of gived item
 class MixinCoords:
 	def __init__(self, item):
 		self.item = item
@@ -20,8 +22,16 @@ class Ball(MixinCoords):
 		self.left = canvas.left_stick
 		self.right = canvas.right_stick
 		self.score = canvas.root.score
+		self.is_moving = True
 
+	# Method move left manage all road ball
 	def move_left(self, x=0):
+		"""
+		if ball hit on stick method call move_to_route
+		else method call change_score before call move_right
+		"""
+		if not self.is_moving:
+			return
 		if int(self.left.coords[0]) == int(self.coords[0]):
 			if self.hit_on_racket(self.left):
 				self.move_to_route(self.left, self.move_right)
@@ -31,7 +41,14 @@ class Ball(MixinCoords):
 			return
 		self.move_controll(self.move_left, x, -10)
 
+	# Method move right manage all road ball
 	def move_right(self, x=0):
+		"""
+		if ball hit on stick method call move_to_route
+		else method call change_score before call move_left
+		"""
+		if not self.is_moving:
+			return
 		if int(self.right.coords[2]) == int(self.coords[2]):
 			if self.hit_on_racket(self.right):
 				self.move_to_route(self.right, self.move_left)
@@ -41,11 +58,8 @@ class Ball(MixinCoords):
 			return
 		self.move_controll(self.move_right, x, 10)
 
+	# Methood start move to another side for y
 	def move_controll(self, func, x=0, y=0):
-		'''
-		Проеряем об какую сторону поля ударился мяч, относительно этого передаем отклонения по x
-		Принимает функцию движения и координаты
-		'''
 		coord = self.coords[1]
 		deviation = random.randint(1, 5)
 
@@ -56,11 +70,8 @@ class Ball(MixinCoords):
 			deviation = x
 		self.canvas.after(self.speed, lambda: func(deviation))
 
+	# Method start move ball to another side for x
 	def move_to_route(self, stick, func, deviation=0):
-		'''
-		Сверяем координати ракетки и координаты места на ракетке об которое ударился мяч
-		Относительно этого меняем маршрут движения по x 
-		'''
 		coords_s = stick.coords
 		coords_b = self.coords
 		r = random.randint(1, 5)
@@ -71,15 +82,21 @@ class Ball(MixinCoords):
 			deviation = r
 		func(deviation)
 
+	# Method check if ball was hitted of stick
 	def hit_on_racket(self, stick):
-		'''
-		Проверяем стукнулся ли мяч об ракетку
-		'''
 		y = self.coords[1]
 		coords = stick.coords
 		if coords[1]-30 < y < coords[3]+30:
 			return True
 		return False
+
+	# Method stop starting move methoods
+	def stop(self):
+		self.is_moving = False
+
+	def __del__(self):
+		self.canvas.delete(self.ball)
+
 
 
 class Stick(MixinCoords):
@@ -89,12 +106,16 @@ class Stick(MixinCoords):
 		self.stick = stick
 		self.user = user
 
+	# Method move stick to up 
 	def move_up(self):
 		self.canvas.move(self.stick, 0, -10)
 		self.canvas.after(20)
 
+	# Method move stick to down
 	def move_down(self):
 		self.canvas.move(self.stick, 0, 10)
 		self.canvas.after(20)
 
+	def __del__(self):
+		self.canvas.delete(self.stick)
 	
