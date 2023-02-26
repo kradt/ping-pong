@@ -1,9 +1,7 @@
 import tkinter as tk
-from functools import lru_cache
 
 import config
 from .items import Stick, Ball
-
 
 
 class GameField(tk.Canvas):

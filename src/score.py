@@ -1,4 +1,5 @@
 import tkinter as tk
+
 import config
 
 
@@ -43,8 +44,3 @@ class Score(tk.Frame):
 			self.root.game.end_of_game()
 		else:
 			self.label["text"] = self.__result.format(self.user1.score, self.user2.score)
-
-
-
-
-
